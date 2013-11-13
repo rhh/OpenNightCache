@@ -1,0 +1,59 @@
+Netlist
+
+Exported from Arduino_NightBlinker.sch at 29.03.2011 15:29:27
+
+EAGLE Version 5.10.0 Copyright (c) 1988-2010 CadSoft
+
+Net      Part     Pad      Pin        Sheet
+
+-RESET   C4       1        1          1
+         IC2      1        PC6(/RESET) 1
+         R3       2        2          1
+         S1       1        S          1
+         S1       2        S1         1
+
+A0       IC2      23       PC0(ADC0)  1
+         PH1      1        1          1
+
+CRYSTAL1 C2       2        2          1
+         IC2      9        PB6(XTAL1/TOSC1) 1
+         Q1       2        2          1
+
+CRYSTAL2 C3       2        2          1
+         IC2      10       PB7(XTAL2/TOSC2) 1
+         Q1       1        1          1
+
+D13      IC2      19       PB5(SCK)   1
+         R2       1        1          1
+
+DTR      C4       2        2          1
+         SV1      6        6          1
+
+GND      C1       1        1          1
+         C2       1        1          1
+         C3       1        1          1
+         IC2      22       GND        1
+         IC2      8        GND        1
+         LED1     K        C          1
+         PH1      2        2          1
+         S1       3        P          1
+         S1       4        P1         1
+         SV1      1        1          1
+         SV1      2        2          1
+
+N$5      LED1     A        A          1
+         R2       2        2          1
+
+RXI      IC2      2        PD0(RXD)   1
+         SV1      4        4          1
+
+TXO      IC2      3        PD1(TXD)   1
+         SV1      5        5          1
+
+VCC      C1       2        2          1
+         IC2      20       AVCC       1
+         IC2      21       AREF       1
+         IC2      7        VCC        1
+         R3       1        1          1
+         SV1      3        3          1
+
