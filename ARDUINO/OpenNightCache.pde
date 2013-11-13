@@ -1,6 +1,6 @@
 //****************************************************************
 /*
- * NightCacheBlinker_0_3 (rhh - 07aug10)
+ * NightCacheBlinker_0_4 (rhh - 13aug10)
  * Waits in Powerdown-mode for the Watchdog to expire;
  * then checks for light deviation and in case its above
  * the pos. theshhold (lamp inlluminates the photocell
@@ -11,6 +11,9 @@
  *     (photocell with 100k fixed pullup)
  * 0.3 changed fixed external pullup 
  *     against switchable internal pullup of A0 (i.e. pin14)
+ * 0.4 added "night-detection" to prevent circuit to be triggered
+ *     by moving leaves of a tree in front of the sun (or the like...)
+ *     (yes A0 really goes up above 1000 
  *
  * current consumption:
  * a) active mode:     Ea = 10mA x 500uS = 5uAS 
@@ -37,7 +40,7 @@ void setup(){
 
 #if DEBUG
   Serial.begin(38400);
-  Serial.println("NightCacheBlinker  0.3 (rhh, 08aug10)");
+  Serial.println("NightCacheBlinker  0.4 (rhh, 13aug10)");
 #endif
 
   pinMode(PIN_LED,OUTPUT);
@@ -51,10 +54,10 @@ void setup(){
 void loop()
 {
   int Light, LightDeviation;
+  bool AbruptIncrease, ReallyDark;
 
   Light = analogRead(0);  // reading photoresistor
   LightDeviation = LastLight - Light;
-  LastLight = Light;
 
 #if DEBUG
   Serial.print("l: " );
@@ -63,7 +66,10 @@ void loop()
   Serial.println(LightDeviation);
 #endif
 
-  if(LightDeviation > 30)    // abrupt increase! // 100 -> 
+  AbruptIncrease = LightDeviation > 30;
+  ReallyDark = LastLight > 990;
+  
+  if(AbruptIncrease && ReallyDark)    
   {
     BlinkLed(20, 200, 20);      // ...(OnTime, OffTime, Cycles)
   }
@@ -74,6 +80,7 @@ void loop()
 #endif
 
   // -------------------------- go to sleep...
+  LastLight = Light;
   pinMode(PIN_LED,INPUT);               // set all used port to intput to save power
   pinMode(PIN_LDR, INPUT);             // ... just to be shure ...
   digitalWrite(PIN_LDR, LOW);          // switch off internal pullup
